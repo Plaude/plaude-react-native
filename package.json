@@ -1,0 +1,32 @@
+{
+  "name": "plaude",
+  "version": "0.0.1",
+  "description": "Plaude SDK",
+  "keywords": [
+    "chat",
+    "support"
+  ],
+  "homepage": "https://github.com/ManuLpz4/plaude-sdk",
+  "bugs": {
+    "url": "https://github.com/ManuLpz4/plaude-sdk/issues"
+  },
+  "author": "Manu Lopez <manu@manu.md> (https://x.com/manulpz4)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManuLpz4/plaude-sdk.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4"
+  },
+  "scripts": {
+    "build": "tsc",
+    "ci": "npm run build",
+    "format": "prettier --write ."
+  }
+}
