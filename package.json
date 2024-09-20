@@ -1,5 +1,5 @@
 {
-  "name": "plaude",
+  "name": "@plaude/react-native",
   "version": "0.0.1",
   "description": "Plaude SDK",
   "keywords": [
@@ -22,15 +22,21 @@
   "license": "MIT",
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.15.4",
+    "@changesets/cli": "^2.27.8",
     "prettier": "^3.3.3",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.1"
   },
   "scripts": {
     "build": "tsc",
-    "ci": "npm run build && npm run check-format && npm run check-exports",
+    "ci": "npm run build && npm run check-format && npm run check-exports && npm run test",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
-    "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm"
+    "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
+    "test": "vitest run",
+    "dev": "vitest",
+    "local-release": "changeset version && changeset publish",
+     "prepublishOnly": "npm run ci"
   },
-   "main": "dist/index.js"
+  "main": "dist/index.js"
 }
