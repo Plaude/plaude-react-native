@@ -1,6 +1,6 @@
 {
   "name": "@plaude/react-native",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Plaude SDK",
   "keywords": [
     "chat",
@@ -36,7 +36,7 @@
     "test": "vitest run",
     "dev": "vitest",
     "local-release": "changeset version && changeset publish",
-     "prepublishOnly": "npm run ci"
+    "prepublishOnly": "npm run ci"
   },
   "main": "dist/index.js"
 }
