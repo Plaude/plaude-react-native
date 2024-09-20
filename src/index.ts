@@ -1,1 +1,1 @@
-export { add } from './utils.js';
+export * from './components/plaude.js';
