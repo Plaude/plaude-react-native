@@ -1,19 +1,19 @@
 {
   "name": "@plaude/react-native",
   "version": "0.0.2",
-  "description": "Plaude SDK",
+  "description": "Plaude React Native SDK",
   "keywords": [
     "chat",
     "support"
   ],
-  "homepage": "https://github.com/ManuLpz4/plaude-sdk",
+  "homepage": "https://github.com/plaude/plaude-react-native",
   "bugs": {
-    "url": "https://github.com/ManuLpz4/plaude-sdk/issues"
+    "url": "https://github.com/plaude/plaude-react-native/issues"
   },
   "author": "Manu Lopez <manu@manu.md> (https://x.com/manulpz4)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ManuLpz4/plaude-sdk.git"
+    "url": "git+https://github.com/plaude/plaude-react-native.git"
   },
   "files": [
     "dist"
