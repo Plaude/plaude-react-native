@@ -1,10 +1,10 @@
 # @plaude/react-native
 
-## 2.0.0
+## 1.0.0
 
 ### Major Changes
 
-- 41798e0: Initial release
+- 8f4bd64: Initial release
 
 ## 0.0.2
 
