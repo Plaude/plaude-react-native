@@ -1,4 +1,13 @@
-# Plaude for React Native
+<p align="center">
+  <img src="https://plaudeai.com/apple-touch-icon.png" width="200px" align="center" alt="Plaude logo" style="border-radius:25%"/>
+  <h1 align="center">Plaude for React Native</h1>
+   <p align="center">
+    <a href="https://plaudeai.com">Plaude</a>
+    <br/>
+    AI-powered tools for your company
+  </p>
+</p>
+<br>
 
 ## Getting started
 
@@ -19,11 +28,7 @@ Then, wrap your application with the `PlaudeProvider` component.
 ```tsx
 import { PlaudeProvider } from '@plaude/react-native';
 
-interface RootLayoutProps {
-  children: React.ReactNode;
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout() {
   return (
     <PlaudeProvider userId="User ID" token="User token">
       // Your application
@@ -53,11 +58,11 @@ import { Pressable, Text, View } from 'react-native';
 import { usePlaude } from '@plaude/react-native';
 
 export default function Page() {
-  const { open } = usePlaude();
+  const { openMessenger } = usePlaude();
 
   return (
     <View>
-      <Pressable onPress={open}>
+      <Pressable onPress={openMessenger}>
         <Text>Open Plaude</Text>
       </Pressable>
     </View>
