@@ -1,5 +1,11 @@
 # @plaude/react-native
 
+## 1.0.2
+
+### Patch Changes
+
+- d60836d: Change method names
+
 ## 1.0.1
 
 ### Patch Changes
