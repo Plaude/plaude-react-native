@@ -17,11 +17,15 @@ First, install the Plaude SDK.
 npm install @plaude/react-native
 ```
 
+<br/>
+
 Then, add the following environment variable from your dashboard.
 
 ```
 PLAUDE_APP_ID="This is an example"
 ```
+
+<br/>
 
 Then, wrap your application with the `PlaudeProvider` component.
 
@@ -37,6 +41,8 @@ export default function RootLayout() {
 }
 ```
 
+<br/>
+
 Although Plaude automatically gets the `App ID` from your environment, you can opt for manually setting it in the `PlaudeProvider` component.
 
 ```tsx
@@ -50,6 +56,8 @@ export default function RootLayout() {
   );
 }
 ```
+
+<br/>
 
 At this point the installation is completed, you can make use of the Plaude messenger by calling the `open()` method from the `usePlaude()` hook.
 
