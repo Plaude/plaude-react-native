@@ -29,6 +29,6 @@
     "jsx": "react",
     "paths": {
       "@plaude/react-native": ["./src"]
-    },
+    }
   }
 }
