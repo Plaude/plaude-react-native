@@ -6,8 +6,8 @@ const BASE_URL = 'https://plaudeai.com';
 
 const PlaudeContext = createContext<
   | {
-      open: () => void;
-      close: () => void;
+      openMessenger: () => void;
+      closeMessenger: () => void;
     }
   | undefined
 >(undefined);
@@ -27,7 +27,7 @@ function PlaudeComponent({
   token,
   children,
 }: PlaudeComponentProps) {
-  const { close } = usePlaude();
+  const { closeMessenger } = usePlaude();
   const [isLoading, setIsLoading] = useState(true);
   const [accessToken, setAccessToken] = useState<string>();
 
@@ -67,7 +67,7 @@ function PlaudeComponent({
       {children}
       <Modal visible={open} animationType="slide" presentationStyle="pageSheet">
         <Pressable
-          onPress={close}
+          onPress={closeMessenger}
           style={{
             position: 'absolute',
             right: 16,
@@ -84,13 +84,13 @@ function PlaudeComponent({
           </Text>
         </Pressable>
         <WebView
+          useWebView2
           source={{
             uri: `${BASE_URL}/chat`,
             headers: {
               authorization: `Bearer ${accessToken}`,
             },
           }}
-          useWebView2
         />
       </Modal>
     </View>
@@ -112,12 +112,12 @@ export const PlaudeProvider = ({
 }: PlaudeProviderProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const open = () => setIsOpen(true);
+  const openMessenger = () => setIsOpen(true);
 
-  const close = () => setIsOpen(false);
+  const closeMessenger = () => setIsOpen(false);
 
   return (
-    <PlaudeContext.Provider value={{ open, close }}>
+    <PlaudeContext.Provider value={{ openMessenger, closeMessenger }}>
       <PlaudeComponent
         open={isOpen}
         appId={process.env.PLAUDE_APP_ID ?? appId}
@@ -134,7 +134,9 @@ export const usePlaude = () => {
   const context = useContext(PlaudeContext);
 
   if (!context) {
-    throw new Error('usePlaude() must be used within a PlaudeProvider.');
+    throw new Error(
+      'It seems like you forgot to wrap your app with the PlaudeProvider component.',
+    );
   }
 
   return context;
