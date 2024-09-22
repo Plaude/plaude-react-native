@@ -1,5 +1,11 @@
 # @plaude/react-native
 
+## 1.0.1
+
+### Patch Changes
+
+- 1b3220c: Make react-native-webview dependency
+
 ## 1.0.0
 
 ### Major Changes
