@@ -27,5 +27,8 @@
     /* AND if you're building for a library in a monorepo: */
     "declarationMap": true,
     "jsx": "react",
+    "paths": {
+      "@plaude/react-native": ["./src"]
+    },
   }
 }
