@@ -1,5 +1,11 @@
 # @plaude/react-native
 
+## 1.0.3
+
+### Patch Changes
+
+- fb1b088: Improve documentation
+
 ## 1.0.2
 
 ### Patch Changes
