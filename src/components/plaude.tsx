@@ -1,5 +1,8 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { ActivityIndicator, Modal, Pressable, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
+
+const BASE_URL = 'https://plaudeai.com';
 
 const PlaudeContext = createContext<
   | {
@@ -10,24 +13,99 @@ const PlaudeContext = createContext<
 >(undefined);
 
 type PlaudeComponentProps = {
-  open: boolean;
+  appId?: string;
   userId: string;
   token: string;
+  open: boolean;
+  children: React.ReactNode;
 };
 
-function PlaudeComponent({ open }: PlaudeComponentProps) {
-  if (!open) return;
+function PlaudeComponent({
+  open,
+  appId,
+  userId,
+  token,
+  children,
+}: PlaudeComponentProps) {
+  const { close } = usePlaude();
+  const [isLoading, setIsLoading] = useState(true);
+  const [accessToken, setAccessToken] = useState<string>();
 
-  return <WebView />;
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      const response = await fetch(`${BASE_URL}/api/auth`, {
+        method: 'POST',
+        body: JSON.stringify({
+          appId: process.env.PLAUDE_APP_ID ?? appId,
+          userId,
+          token,
+        }),
+      });
+      const accessToken = (await response.json()).accessToken;
+      if (accessToken) setAccessToken(accessToken);
+      setIsLoading(false);
+    };
+
+    fetchAccessToken();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+        }}
+      >
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
+  return (
+    <View style={{ flex: 1 }}>
+      {children}
+      <Modal visible={open} animationType="slide" presentationStyle="pageSheet">
+        <Pressable
+          onPress={close}
+          style={{
+            position: 'absolute',
+            right: 16,
+            top: 16,
+            zIndex: 10,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 24,
+            }}
+          >
+            ✖
+          </Text>
+        </Pressable>
+        <WebView
+          source={{
+            uri: `${BASE_URL}/chat`,
+            headers: {
+              authorization: `Bearer ${accessToken}`,
+            },
+          }}
+          useWebView2
+        />
+      </Modal>
+    </View>
+  );
 }
 
 type PlaudeProviderProps = {
+  appId?: string;
   userId: string;
   token: string;
   children: React.ReactNode;
 };
 
 export const PlaudeProvider = ({
+  appId,
   userId,
   token,
   children,
@@ -40,8 +118,14 @@ export const PlaudeProvider = ({
 
   return (
     <PlaudeContext.Provider value={{ open, close }}>
-      <PlaudeComponent open={isOpen} userId={userId} token={token} />
-      {children}
+      <PlaudeComponent
+        open={isOpen}
+        appId={process.env.PLAUDE_APP_ID ?? appId}
+        userId={userId}
+        token={token}
+      >
+        {children}
+      </PlaudeComponent>
     </PlaudeContext.Provider>
   );
 };
@@ -50,7 +134,7 @@ export const usePlaude = () => {
   const context = useContext(PlaudeContext);
 
   if (!context) {
-    throw new Error('useCustomer must be used within a CustomerProvider');
+    throw new Error('usePlaude() must be used within a PlaudeProvider.');
   }
 
   return context;
