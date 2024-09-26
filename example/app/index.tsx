@@ -2,11 +2,11 @@ import { usePlaude } from '@plaude/react-native';
 import { Button, StyleSheet, View } from 'react-native';
 
 export default function IndexPage() {
-  const { open } = usePlaude();
+  const { openMessenger } = usePlaude();
 
   return (
     <View style={styles.container}>
-      <Button onPress={open} title="Open Plaude" />
+      <Button onPress={openMessenger} title="Open Plaude" />
     </View>
   );
 }

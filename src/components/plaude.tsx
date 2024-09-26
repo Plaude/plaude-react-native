@@ -32,6 +32,7 @@ function PlaudeComponent({
   const [accessToken, setAccessToken] = useState<string>();
 
   useEffect(() => {
+    console.log({ PLAUDE_APP_ID: process.env.PLAUDE_APP_ID });
     const fetchAccessToken = async () => {
       const response = await fetch(`${BASE_URL}/api/auth`, {
         method: 'POST',
@@ -86,7 +87,7 @@ function PlaudeComponent({
         <WebView
           useWebView2
           source={{
-            uri: `${BASE_URL}/chat`,
+            uri: `${BASE_URL}/messenger`,
             headers: {
               authorization: `Bearer ${accessToken}`,
             },
