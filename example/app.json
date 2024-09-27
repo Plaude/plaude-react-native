@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "react-native-example",
-    "slug": "react-native-example",
+    "name": "Plaude Example",
+    "slug": "plaude-react-native-example",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "plaude",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -31,6 +31,6 @@
     "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true
-    },
+    }
   }
 }
