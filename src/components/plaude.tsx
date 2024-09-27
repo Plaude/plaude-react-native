@@ -1,70 +1,38 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { ActivityIndicator, Modal, Pressable, Text, View } from 'react-native';
+import React, { createContext, useContext, useState } from 'react';
+import { Modal, Pressable, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
-
-const BASE_URL = 'https://plaudeai.com';
 
 const PlaudeContext = createContext<
   | {
       openMessenger: () => void;
       closeMessenger: () => void;
+      setToken: (token: string) => void;
     }
   | undefined
 >(undefined);
 
-type PlaudeComponentProps = {
-  appId?: string;
-  userId: string;
-  token: string;
-  open: boolean;
-  children: React.ReactNode;
-};
+const usePlaude = () => {
+  const context = useContext(PlaudeContext);
 
-function PlaudeComponent({
-  open,
-  appId,
-  userId,
-  token,
-  children,
-}: PlaudeComponentProps) {
-  const { closeMessenger } = usePlaude();
-  const [isLoading, setIsLoading] = useState(true);
-  const [accessToken, setAccessToken] = useState<string>();
-
-  useEffect(() => {
-    console.log({ PLAUDE_APP_ID: process.env.PLAUDE_APP_ID });
-    const fetchAccessToken = async () => {
-      const response = await fetch(`${BASE_URL}/api/auth`, {
-        method: 'POST',
-        body: JSON.stringify({
-          appId: process.env.PLAUDE_APP_ID ?? appId,
-          userId,
-          token,
-        }),
-      });
-      const accessToken = (await response.json()).accessToken;
-      if (accessToken) setAccessToken(accessToken);
-      setIsLoading(false);
-    };
-
-    fetchAccessToken();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-        }}
-      >
-        <ActivityIndicator />
-      </View>
+  if (!context) {
+    throw new Error(
+      'It seems like you forgot to wrap your app with the PlaudeProvider component.',
     );
   }
 
+  return context;
+};
+
+type PlaudeMessengerProps = React.PropsWithChildren<{
+  open: boolean;
+  token?: string;
+}>;
+
+function PlaudeMessenger({ open, token, children }: PlaudeMessengerProps) {
+  const { closeMessenger } = usePlaude();
+
   return (
-    <View style={{ flex: 1 }}>
+    <>
       {children}
       <Modal visible={open} animationType="slide" presentationStyle="pageSheet">
         <Pressable
@@ -73,7 +41,7 @@ function PlaudeComponent({
             position: 'absolute',
             right: 16,
             top: 16,
-            zIndex: 10,
+            zIndex: 1,
           }}
         >
           <Text
@@ -87,58 +55,38 @@ function PlaudeComponent({
         <WebView
           useWebView2
           source={{
-            uri: `${BASE_URL}/messenger`,
-            headers: {
-              authorization: `Bearer ${accessToken}`,
-            },
+            uri: `https://embed.plaudeai.com/messenger`,
+            headers: token
+              ? {
+                  authorization: `Basic ${token}`,
+                }
+              : undefined,
           }}
         />
       </Modal>
-    </View>
+    </>
   );
 }
 
-type PlaudeProviderProps = {
-  appId?: string;
-  userId: string;
-  token: string;
-  children: React.ReactNode;
-};
+const PlaudeProvider = ({ children }: React.PropsWithChildren) => {
+  const [isMessengerOpen, setIsMessengerOpen] = useState(false);
+  const [token, setToken] = useState<string>();
 
-export const PlaudeProvider = ({
-  appId,
-  userId,
-  token,
-  children,
-}: PlaudeProviderProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const openMessenger = () => {
+    if (!isMessengerOpen) setIsMessengerOpen(true);
+  };
 
-  const openMessenger = () => setIsOpen(true);
-
-  const closeMessenger = () => setIsOpen(false);
+  const closeMessenger = () => {
+    if (isMessengerOpen) setIsMessengerOpen(false);
+  };
 
   return (
-    <PlaudeContext.Provider value={{ openMessenger, closeMessenger }}>
-      <PlaudeComponent
-        open={isOpen}
-        appId={process.env.PLAUDE_APP_ID ?? appId}
-        userId={userId}
-        token={token}
-      >
+    <PlaudeContext.Provider value={{ openMessenger, closeMessenger, setToken }}>
+      <PlaudeMessenger open={isMessengerOpen} token={token}>
         {children}
-      </PlaudeComponent>
+      </PlaudeMessenger>
     </PlaudeContext.Provider>
   );
 };
 
-export const usePlaude = () => {
-  const context = useContext(PlaudeContext);
-
-  if (!context) {
-    throw new Error(
-      'It seems like you forgot to wrap your app with the PlaudeProvider component.',
-    );
-  }
-
-  return context;
-};
+export { PlaudeProvider, usePlaude };
