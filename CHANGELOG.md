@@ -1,5 +1,11 @@
 # @plaude/react-native
 
+## 1.0.5
+
+### Patch Changes
+
+- b23970e: Add setToken() method to usePlaude() hook
+
 ## 1.0.4
 
 ### Patch Changes
