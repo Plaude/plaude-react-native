@@ -19,9 +19,9 @@ npm install @plaude/react-native
 
 <br/>
 
-Then, add the following environment variable from your dashboard.
+Then, add the following environment variable from your [Plaude dashboard](https://plaudeai.com/sign-in).
 
-```
+```sh
 PLAUDE_APP_ID="This is an example"
 ```
 
@@ -32,12 +32,8 @@ Then, wrap your application with the `PlaudeProvider` component.
 ```tsx
 import { PlaudeProvider } from '@plaude/react-native';
 
-export default function RootLayout() {
-  return (
-    <PlaudeProvider userId="User ID" token="User token">
-      // Your application
-    </PlaudeProvider>
-  );
+export default function RootLayout({ children }: React.PropsWithChildren) {
+  return <PlaudeProvider>{children}</PlaudeProvider>;
 }
 ```
 
@@ -48,18 +44,14 @@ Although Plaude automatically gets the `App ID` from your environment, you can o
 ```tsx
 import { PlaudeProvider } from '@plaude/react-native';
 
-export default function RootLayout() {
-  return (
-    <PlaudeProvider appId="Your App ID" userId="User ID" token="User token">
-      // Your application
-    </PlaudeProvider>
-  );
+export default function RootLayout({ children }: React.PropsWithChildren) {
+  return <PlaudeProvider appId="Your App ID">{children}</PlaudeProvider>;
 }
 ```
 
 <br/>
 
-At this point the installation is completed, you can make use of the Plaude messenger by calling the `open()` method from the `usePlaude()` hook.
+At this point the installation is completed, you can make use of the Plaude messenger by calling the `openMessenger()` method from the `usePlaude()` hook.
 
 ```tsx
 import { Pressable, Text, View } from 'react-native';
