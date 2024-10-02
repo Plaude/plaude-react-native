@@ -24,11 +24,17 @@ const usePlaude = () => {
 };
 
 type PlaudeMessengerProps = React.PropsWithChildren<{
+  appId: string;
   open: boolean;
   token?: string;
 }>;
 
-function PlaudeMessenger({ open, token, children }: PlaudeMessengerProps) {
+function PlaudeMessenger({
+  appId,
+  open,
+  token,
+  children,
+}: PlaudeMessengerProps) {
   const { closeMessenger } = usePlaude();
 
   return (
@@ -55,12 +61,7 @@ function PlaudeMessenger({ open, token, children }: PlaudeMessengerProps) {
         <WebView
           useWebView2
           source={{
-            uri: `https://embed.plaudeai.com/messenger`,
-            headers: token
-              ? {
-                  authorization: `Basic ${token}`,
-                }
-              : undefined,
+            uri: `https://embed.plaudeai.com/messenger?appId${appId}&token=${token}`,
           }}
         />
       </Modal>
@@ -68,7 +69,15 @@ function PlaudeMessenger({ open, token, children }: PlaudeMessengerProps) {
   );
 }
 
-const PlaudeProvider = ({ children }: React.PropsWithChildren) => {
+type PlaudeProviderProps = React.PropsWithChildren<{
+  appId?: string;
+}>;
+
+const PlaudeProvider = ({ appId, children }: PlaudeProviderProps) => {
+  if (!(process.env.PLAUDE_APP_ID ?? appId)) {
+    throw new Error('It seems like you forgot to set the App ID.');
+  }
+
   const [isMessengerOpen, setIsMessengerOpen] = useState(false);
   const [token, setToken] = useState<string>();
 
@@ -82,7 +91,11 @@ const PlaudeProvider = ({ children }: React.PropsWithChildren) => {
 
   return (
     <PlaudeContext.Provider value={{ openMessenger, closeMessenger, setToken }}>
-      <PlaudeMessenger open={isMessengerOpen} token={token}>
+      <PlaudeMessenger
+        appId={(process.env.PLAUDE_APP_ID ?? appId)!}
+        open={isMessengerOpen}
+        token={token}
+      >
         {children}
       </PlaudeMessenger>
     </PlaudeContext.Provider>
