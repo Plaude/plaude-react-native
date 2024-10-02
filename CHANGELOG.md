@@ -1,5 +1,11 @@
 # @plaude/react-native
 
+## 1.1.0
+
+### Minor Changes
+
+- 1efc362: Change API
+
 ## 1.0.5
 
 ### Patch Changes
