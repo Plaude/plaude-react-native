@@ -61,7 +61,7 @@ function PlaudeMessenger({
         <WebView
           useWebView2
           source={{
-            uri: `https://embed.plaudeai.com/messenger?appId${appId}&token=${token}`,
+            uri: `https://embed.plaudeai.com/messenger/${appId}${token ? `?token=${token}` : ''}`,
           }}
         />
       </Modal>
