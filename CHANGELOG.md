@@ -1,5 +1,11 @@
 # @plaude/react-native
 
+## 1.1.1
+
+### Patch Changes
+
+- 3b97627: Update Messenger URI.
+
 ## 1.1.0
 
 ### Minor Changes
