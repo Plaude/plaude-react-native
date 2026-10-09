@@ -23,7 +23,22 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run CI
         run: npm run ci
+
+      - name: Test SDK
+        run: npm test
+
+      - name: Install example dependencies
+        run: npm ci --prefix example
+
+      - name: Check example
+        working-directory: example
+        run: |
+          npm run test:ci
+          npm run test:dependencies
+          npm run typecheck
+          npm run lint
+          npm run build
