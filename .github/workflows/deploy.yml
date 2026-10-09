@@ -29,7 +29,9 @@ jobs:
         run: npm run ci
 
       - name: Test SDK
-        run: npm test
+        run: |
+          npm test
+          npm run test:dependencies
 
       - name: Install example dependencies
         run: npm ci --prefix example

@@ -13,8 +13,8 @@
     "test:ci": "jest --runInBand",
     "typecheck": "tsc --noEmit",
     "build": "expo export --platform all",
-    "postinstall": "node ./scripts/patch-expo-tar.cjs",
-    "test:dependencies": "node --test scripts/dependency-compatibility.test.cjs"
+    "postinstall": "node ./scripts/patch-expo-tar.cjs && node ../scripts/patch-metro-image-size.cjs",
+    "test:dependencies": "node --test scripts/dependency-compatibility.test.cjs scripts/expo-server.test.cjs && node --test ../scripts/metro-image-size.test.cjs"
   },
   "jest": {
     "preset": "jest-expo"
@@ -59,6 +59,8 @@
     "@xmldom/xmldom": "^0.8.15",
     "fast-xml-parser": "^5.11.2",
     "tar": "^7.5.22",
-    "postcss": "^8.5.29"
+    "postcss": "^8.5.29",
+    "image-size": "2.0.4",
+    "@expo/server": "0.5.3"
   }
 }
