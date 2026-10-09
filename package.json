@@ -41,13 +41,16 @@
     "test": "vitest run",
     "dev": "vitest",
     "local-release": "changeset version && changeset publish",
-    "prepublishOnly": "npm run ci"
+    "prepublishOnly": "npm run ci",
+    "prepare": "node ./scripts/patch-metro-image-size.cjs",
+    "test:dependencies": "node --test scripts/metro-image-size.test.cjs"
   },
   "main": "dist/index.js",
   "dependencies": {
     "react-native-webview": "^13.12.2"
   },
   "overrides": {
-    "fast-xml-parser": "^5.11.2"
+    "fast-xml-parser": "^5.11.2",
+    "image-size": "2.0.4"
   }
 }
